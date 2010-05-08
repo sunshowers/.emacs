@@ -1,0 +1,15 @@
+# Compiled/temporary crap
+\.elc$
+~$
+^\#.*\#$
+
+# IRC passwords
+^irc-passwords\.el$
+
+# Other files that shouldn't be shared across machines
+^auto-saves-list/
+^rcirc-log/
+^server/
+^url/
+^\.emacs\.desktop$
+^\.emacs\.desktop\.lock$
