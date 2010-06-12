@@ -105,7 +105,8 @@
  '(rcirc-log-flag t)
  '(rcirc-prompt "%t:%n> ")
  '(rcirc-response-formats (quote (("PRIVMSG" . "<%N> %m") ("NOTICE" . "-%N- %m") ("ACTION" . "* %N %m") ("COMMAND" . "%m") ("ERROR" . "%fw!!! %m") ("JOIN" . "--> %N %fshas joined this channel") ("PART" . "%fp<-- %N has left %m") ("NICK" . "%fp<-> %N is now known as %fs%m") ("MODE" . "%fp*** %N has set mode %m") ("QUIT" . "%fp<-- %N has quit: %m") ("TOPIC" . "%fp*** %N has set the topic to %m") (t . "%fp*** %fs%n %r %m"))))
- '(rcirc-server-alist (quote (("irc.oftc.net" :channels ("#hackers-india")) ("75.125.121.93" :port 7778) ("irc.rizon.net" :channels ("#anon32")) ("im.bitlbee.org"))))
+ '(rcirc-server-alist (quote (("irc.oftc.net" :channels ("#hackers-india")) ("75.125.121.93" :port 7778) ("irc.rizon.net" :channels ("#anon32"))
+                              ("irc.freenode.net" :channels ("#reddit" "#iitm-linux" "#kit-bot")) ("im.bitlbee.org"))))
  '(rcirc-time-format "[%H:%M:%S] ")
  '(rcirc-track-minor-mode t)
  '(scroll-preserve-screen-position 1)
@@ -121,7 +122,8 @@
 (setq rcirc-authinfo `(("oftc" nickserv "sid0" ,irc-oftc-password)
                        ("bitlbee" bitlbee "sid0" ,irc-bitlbee-password)
                        ("75.125.121.93" bitlbee "sid0" ,irc-moz-znc-password)
-                       ("Rizon" nickserv "sid0" ,irc-rizon-password)))
+                       ("Rizon" nickserv "sid0" ,irc-rizon-password)
+                       ("Freenode" nickserv "sid0" ,irc-freenode-password)))
 
 ; Keep input line at the bottom
 (add-hook 'rcirc-mode-hook
