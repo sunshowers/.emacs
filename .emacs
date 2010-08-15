@@ -256,3 +256,8 @@ This is used for the initial name given to IRC buffers."
 ; automatic asynchronous byte compilation
 (require 'auto-async-byte-compile)
 (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
+
+; Haskell mode
+(load "~/.emacs.d/elisp-files/haskell-mode/haskell-site-file")
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
