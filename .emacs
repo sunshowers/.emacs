@@ -140,7 +140,7 @@
 This is used for the initial name given to IRC buffers."
      (substring-no-properties
       (if target
-	  (concat (replace-regexp-in-string "\*" "" target) "@"
+	  (concat (replace-regexp-in-string "[*|]" "" target) "@"
                   (process-name process))
 	(process-name process)))))
 
