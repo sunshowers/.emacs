@@ -6,6 +6,9 @@
 
 ; Consolas 11pt
 (set-face-font `default "Consolas-11")
+; Meiryo 11 for Japanese
+(set-fontset-font t 'japanese-jisx0208 "Meiryo-11")
+
 
 ; Add to load path
 (setq load-path (cons "~/.emacs.d/elisp-files" load-path))
@@ -96,7 +99,6 @@
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode t)
  '(oz-indent-chars 2)
-
  '(rcirc-default-full-name "Siddharth Agarwal")
  '(rcirc-default-nick "sid0")
  '(rcirc-default-user-name "sid0")
@@ -105,10 +107,10 @@
  '(rcirc-log-flag t)
  '(rcirc-prompt "%t:%n> ")
  '(rcirc-response-formats (quote (("PRIVMSG" . "<%N> %m") ("NOTICE" . "-%N- %m") ("ACTION" . "* %N %m") ("COMMAND" . "%m") ("ERROR" . "%fw!!! %m") ("JOIN" . "--> %N %fshas joined this channel") ("PART" . "%fp<-- %N has left %m") ("NICK" . "%fp<-> %N is now known as %fs%m") ("MODE" . "%fp*** %N has set mode %m") ("QUIT" . "%fp<-- %N has quit: %m") ("TOPIC" . "%fp*** %N has set the topic to %m") (t . "%fp*** %fs%n %r %m"))))
- '(rcirc-server-alist (quote (("irc.oftc.net" :channels ("#hackers-india")) ("75.125.121.93" :port 7778) ("irc.rizon.net" :channels ("#anon32"))
-                              ("irc.freenode.net" :channels ("#reddit" "#iitm-linux" "#kit-bot")) ("im.bitlbee.org"))))
+ '(rcirc-server-alist (quote (("irc.rizon.net" :channels ("#anon32")) ("75.125.121.93" :port 7778))))
  '(rcirc-time-format "[%H:%M:%S] ")
  '(rcirc-track-minor-mode t)
+ '(safe-local-variable-values (quote ((js2-basic-offset . 2))))
  '(scroll-preserve-screen-position 1)
  '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Git Arch MCVS))))
 
@@ -181,6 +183,18 @@ This is used for the initial name given to IRC buffers."
 (define-key rcirc-mode-map (kbd "C-c o") 'rcirc-cmd-opme)
 (define-key rcirc-mode-map (kbd "C-c d") 'rcirc-cmd-deopme)
 (define-key rcirc-mode-map (kbd "C-c C-D") 'rcirc-cmd-deop)
+
+(eval-after-load 'rcirc
+  '(defun-rcirc-command all (input)
+     "Run the arguments as a command for all connections.
+Example use: /all away food or /all quit zzzz."
+     (interactive "s")
+     (let ((buffers (mapcar 'process-buffer (rcirc-process-list))))
+       (dolist (buf buffers)
+	 (with-current-buffer buf
+	   (goto-char (point-max))
+	   (insert "/" input)
+	   (rcirc-send-input))))))
 
 ; browse kill ring
 (require 'browse-kill-ring)
