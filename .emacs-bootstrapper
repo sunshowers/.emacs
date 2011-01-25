@@ -1,3 +1,0 @@
-; Usage: save this file as .emacs in your home directory.
-; Load the real .emacs
-(load-file "~/.emacs.d/.emacs")
