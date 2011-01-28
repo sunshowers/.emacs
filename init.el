@@ -95,9 +95,12 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
+ '(auto-async-byte-compile-exclude-files-regexp "init.el")
  '(desktop-path (quote ("~/.emacs.d" "." "~")))
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode t)
+ '(ido-enable-flex-matching t)
+ '(ido-everywhere t)
  '(oz-indent-chars 2)
  '(rcirc-default-full-name "Siddharth Agarwal")
  '(rcirc-default-nick "sid0")
@@ -275,3 +278,9 @@ Example use: /all away food or /all quit zzzz."
 (load "~/.emacs.d/elisp-files/haskell-mode/haskell-site-file")
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
