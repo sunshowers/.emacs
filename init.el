@@ -4,14 +4,18 @@
                             (width . 170)
                             (height . 40)))
 
-; Consolas 11pt
-(set-face-font `default "Consolas-11")
+; Ubuntu Mono at 10.5pt
+(set-face-font 'default "Ubuntu Mono-10.5")
+;(set-face-font `default "Consolas-11")
 ; Meiryo 11 for Japanese
-(set-fontset-font t 'japanese-jisx0208 "Meiryo-11")
+;(set-fontset-font t 'japanese-jisx0208 "Meiryo-11")
 
 
 ; Add to load path
 (setq load-path (cons "~/.emacs.d/elisp-files" load-path))
+
+; Disable backups
+(setq make-backup-files nil)
 
 ; Twilight colour theme
 (require 'color-theme)
@@ -20,10 +24,10 @@
 (color-theme-twilight)
 
 ; js2-mode
-(autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.jsm$" . js2-mode))
-(setq js2-language-version 180)
+;; (autoload 'js2-mode "js2" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsm$" . js2-mode))
+;; (setq js2-language-version 180)
 
 ; line numbers
 (global-linum-mode t)
@@ -75,129 +79,34 @@
 (setq require-final-newline t)
 
 ; BSD style 4 life
-(setq c-default-style "bsd" c-basic-offset 2)
-
-; NO TABS. EVER.
-(setq indent-tabs-mode nil)
-(setq-default indent-tabs-mode nil)
+(setq c-default-style "bsd")
+(require 'dtrt-indent)
+(dtrt-indent-mode 1)
 
 ; auto indent
-(add-hook 'c-mode-common-hook '(lambda ()
-  (local-set-key (kbd "RET") 'newline-and-indent)))
-(add-hook 'js2-mode-hook '(lambda ()
-  (local-set-key (kbd "RET") 'newline-and-indent)))
+(define-key global-map (kbd "RET") 'newline-and-indent)
 
 ; pastie!
 (require 'pastie)
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(auto-async-byte-compile-exclude-files-regexp "init.el")
  '(desktop-path (quote ("~/.emacs.d" "." "~")))
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode t)
+ '(dtrt-indent-mode t nil (dtrt-indent))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
  '(oz-indent-chars 2)
- '(rcirc-default-full-name "Siddharth Agarwal")
- '(rcirc-default-nick "sid0")
- '(rcirc-default-user-name "sid0")
- '(rcirc-dim-nicks (quote ("firebot")))
- '(rcirc-fill-column (quote frame-width))
- '(rcirc-log-flag t)
- '(rcirc-prompt "%t:%n> ")
- '(rcirc-response-formats (quote (("PRIVMSG" . "<%N> %m") ("NOTICE" . "-%N- %m") ("ACTION" . "* %N %m") ("COMMAND" . "%m") ("ERROR" . "%fw!!! %m") ("JOIN" . "--> %N %fshas joined this channel") ("PART" . "%fp<-- %N has left %m") ("NICK" . "%fp<-> %N is now known as %fs%m") ("MODE" . "%fp*** %N has set mode %m") ("QUIT" . "%fp<-- %N has quit: %m") ("TOPIC" . "%fp*** %N has set the topic to %m") (t . "%fp*** %fs%n %r %m"))))
- '(rcirc-server-alist (quote (("irc.rizon.net" :channels ("#anon32")) ("75.125.121.93" :port 7778))))
- '(rcirc-time-format "[%H:%M:%S] ")
- '(rcirc-track-minor-mode t)
  '(safe-local-variable-values (quote ((js2-basic-offset . 2))))
  '(scroll-preserve-screen-position 1)
- '(vc-handled-backends (quote (RCS CVS SVN SCCS Bzr Git Arch MCVS))))
-
-; RCIRC
-(require 'rcirc)
-(require 'rcirc-late-fix)
-
-; Authentication info
-(load "~/.emacs.d/irc-passwords.el")
-
-(setq rcirc-authinfo `(("oftc" nickserv "sid0" ,irc-oftc-password)
-                       ("bitlbee" bitlbee "sid0" ,irc-bitlbee-password)
-                       ("75.125.121.93" bitlbee "sid0" ,irc-moz-znc-password)
-                       ("Rizon" nickserv "sid0" ,irc-rizon-password)
-                       ("Freenode" nickserv "sid0" ,irc-freenode-password)))
-
-; Keep input line at the bottom
-(add-hook 'rcirc-mode-hook
-	  (lambda ()
-	    (set (make-local-variable 'scroll-conservatively)
-		 8192)))
-(defface rcirc-late-fix-face '((t (:underline t)))
-  "Face for showing fixed words on the channel buffer.")
-
-;; Windows doesn't like "*foo*" filenames
-(eval-after-load 'rcirc
-  '(defun rcirc-generate-new-buffer-name (process target)
-     "Return a buffer name based on PROCESS and TARGET.
-This is used for the initial name given to IRC buffers."
-     (substring-no-properties
-      (if target
-	  (concat (replace-regexp-in-string "[*|]" "" target) "@"
-                  (process-name process))
-	(process-name process)))))
-
-(eval-after-load 'rcirc
-  '(defun-rcirc-command op (nicks)
-     "Send OP for `nicks'.
-    Limitation: in its interactive form, you can only op one nick."
-     (interactive (list (completing-read "Op nick: "
-                                         (with-rcirc-server-buffer rcirc-nick-table))))
-     (dolist (nick (split-string nicks " "))
-       (rcirc-send-string process
-                          (format "ChanServ OP %s %s" target nick)))))
-
-(eval-after-load 'rcirc
-  '(defalias 'rcirc-cmd-opme
-     '(lambda (&optional args process target)
-        (interactive)
-        (rcirc-cmd-op (rcirc-nick (rcirc-buffer-process))))
-     "Request a ChanServ OP on my current nick in the current channel."))
-
-(eval-after-load 'rcirc
-  '(defun-rcirc-command deop (nicks)
-     "Send DEOP for `nicks'.
-    Limitation: in its interactive form, you can only de-op one nick."
-     (interactive (list (completing-read "Op nick: "
-                                         (with-rcirc-server-buffer rcirc-nick-table))))
-     (dolist (nick (split-string nicks " "))
-       (rcirc-send-string process
-                          (format "ChanServ DEOP %s %s" target nick)))))
-
-(eval-after-load 'rcirc
-  (defalias 'rcirc-cmd-deopme
-    '(lambda (&optional args process target)
-       (interactive)
-       (rcirc-cmd-deop (rcirc-nick (rcirc-buffer-process))))))
-
-(define-key rcirc-mode-map (kbd "C-c C-O") 'rcirc-cmd-op)
-(define-key rcirc-mode-map (kbd "C-c o") 'rcirc-cmd-opme)
-(define-key rcirc-mode-map (kbd "C-c d") 'rcirc-cmd-deopme)
-(define-key rcirc-mode-map (kbd "C-c C-D") 'rcirc-cmd-deop)
-
-(eval-after-load 'rcirc
-  '(defun-rcirc-command all (input)
-     "Run the arguments as a command for all connections.
-Example use: /all away food or /all quit zzzz."
-     (interactive "s")
-     (let ((buffers (mapcar 'process-buffer (rcirc-process-list))))
-       (dolist (buf buffers)
-	 (with-current-buffer buf
-	   (goto-char (point-max))
-	   (insert "/" input)
-	   (rcirc-send-input))))))
+ '(vc-handled-backends nil)
+ '(c-basic-offset 2)
+ '(indent-tabs-mode nil))
 
 ; browse kill ring
 (require 'browse-kill-ring)
@@ -238,8 +147,8 @@ Example use: /all away food or /all quit zzzz."
 ; SML mode
 (load "sml-mode-startup")
 
-; 1.15 line spacing, for maximum readability
-(setq-default line-spacing 0.15)
+; 1.18 line spacing, for maximum readability
+(setq-default line-spacing 0.18)
 
 ; Emacs server
 (server-start)
@@ -279,8 +188,36 @@ Example use: /all away food or /all quit zzzz."
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
+
+; Make tramp handle 2-factor auth
+(setq
+ tramp-password-prompt-regexp
+ (concat
+  "^.*"
+  (regexp-opt
+   '("passcode" "Passcode"
+     "passphrase" "Passphrase"
+     "password" "Password") t)
+  ".*:\0? *"))
+
+(setq auto-save-default nil)
+
+(require 'package)
+;; Add the original Emacs Lisp Package Archive
+(add-to-list 'package-archives
+             '("elpa" . "http://tromey.com/elpa/"))
+;; Add the user-contributed repository
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+
+
+; Org mode
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
