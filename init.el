@@ -1,10 +1,18 @@
 (setq inhibit-startup-message t)
 
+(add-to-list 'load-path "~/.emacs.d")
+
 ;; initialize packages
 (require 'package)
-
 (setq package-enable-at-startup nil)
-(package-initialize)
+;; Add the original Emacs Lisp Package Archive
+(add-to-list 'package-archives
+             '("elpa" . "http://tromey.com/elpa/"))
+;; Add the user-contributed repository
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(load "ensure-packages")
+(ensure-packages-install-missing)
 
 (setq initial-frame-alist '((top . 58)
                             (left . 10)
@@ -195,15 +203,6 @@
   ".*:\0? *"))
 
 (setq auto-save-default nil)
-
-(require 'package)
-;; Add the original Emacs Lisp Package Archive
-(add-to-list 'package-archives
-             '("elpa" . "http://tromey.com/elpa/"))
-;; Add the user-contributed repository
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-
 
 ; Org mode
 (require 'org)
