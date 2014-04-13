@@ -17,18 +17,14 @@
 ; Meiryo 11 for Japanese
 ;(set-fontset-font t 'japanese-jisx0208 "Meiryo-11")
 
-
 ; Add to load path
 (setq load-path (cons "~/.emacs.d/elisp-files" load-path))
 
+; Load the adwaita theme
+(load-theme 'adwaita)
+
 ; Disable backups
 (setq make-backup-files nil)
-
-; Twilight colour theme
-(require 'color-theme)
-(color-theme-initialize)
-(load-file "~/.emacs.d/elisp-files/themes/color-theme-twilight.el")
-(color-theme-twilight)
 
 ; js2-mode
 ;; (autoload 'js2-mode "js2" nil t)
@@ -97,18 +93,19 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auto-async-byte-compile-exclude-files-regexp "init.el")
+ '(c-basic-offset 2)
+ '(custom-safe-themes (quote ("6cfe5b2f818c7b52723f3e121d1157cf9d95ed8923dbc1b47f392da80ef7495d" default)))
  '(desktop-path (quote ("~/.emacs.d" "." "~")))
  '(desktop-save (quote ask-if-new))
  '(desktop-save-mode t)
  '(dtrt-indent-mode t nil (dtrt-indent))
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
+ '(indent-tabs-mode nil)
  '(oz-indent-chars 2)
  '(safe-local-variable-values (quote ((js2-basic-offset . 2))))
  '(scroll-preserve-screen-position 1)
- '(vc-handled-backends nil)
- '(c-basic-offset 2)
- '(indent-tabs-mode nil))
+ '(vc-handled-backends nil))
 
 ; browse kill ring
 (require 'browse-kill-ring)
@@ -180,7 +177,6 @@
 (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode)
 
 ; Haskell mode
-(load "~/.emacs.d/elisp-files/haskell-mode/haskell-site-file")
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (custom-set-faces
