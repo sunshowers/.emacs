@@ -107,9 +107,6 @@
  '(scroll-preserve-screen-position 1)
  '(vc-handled-backends nil))
 
-; browse kill ring
-(require 'browse-kill-ring)
-
 ; ido mode!
 (require 'ido)
 (ido-mode t)
