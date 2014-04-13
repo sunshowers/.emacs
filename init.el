@@ -59,9 +59,9 @@
 ; use Alt-UDLR to move across split viewports
 (windmove-default-keybindings 'meta)
 
-; redo support, yay
-(require 'redo)
-(global-set-key (kbd "C-S-z") 'redo)
+; redo via undo-tree
+(global-undo-tree-mode)
+(global-set-key (kbd "C-S-z") 'undo-tree-redo)
 
 ; everywhere is utf-8
 (set-terminal-coding-system 'utf-8)
