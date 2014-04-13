@@ -1,4 +1,11 @@
 (setq inhibit-startup-message t)
+
+;; initialize packages
+(require 'package)
+
+(setq package-enable-at-startup nil)
+(package-initialize)
+
 (setq initial-frame-alist '((top . 58)
                             (left . 10)
                             (width . 170)
@@ -69,7 +76,6 @@
 (setq frame-title-format "%f — Emacs")
 
 ; move buffers around
-(require 'buffer-move)
 (global-set-key (kbd "<S-M-up>")    'buf-move-up)
 (global-set-key (kbd "<S-M-down>")  'buf-move-down)
 (global-set-key (kbd "<S-M-left>")  'buf-move-left)
@@ -80,14 +86,10 @@
 
 ; BSD style 4 life
 (setq c-default-style "bsd")
-(require 'dtrt-indent)
 (dtrt-indent-mode 1)
 
 ; auto indent
 (define-key global-map (kbd "RET") 'newline-and-indent)
-
-; pastie!
-(require 'pastie)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -140,9 +142,6 @@
 
 ; 80 chars wide
 (setq default-fill-column 80)
-
-; SML mode
-(load "sml-mode-startup")
 
 ; 1.18 line spacing, for maximum readability
 (setq-default line-spacing 0.18)
