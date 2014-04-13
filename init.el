@@ -116,9 +116,6 @@
 (ido-mode t)
 (global-set-key (kbd "C-x f") 'ido-find-file)
 
-; Proper mercurial support!
-; (require 'mercurial)
-
 ; CUA mode
 (cua-mode t)
 (setq cua-auto-tabify-rectangles nil) ;; Don't tabify after rectangle commands
