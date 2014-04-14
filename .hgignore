@@ -1,7 +1,8 @@
 # Compiled/temporary crap
 \.elc$
 ~$
-^\#.*\#$
+^\#
+^\.\#
 
 # IRC passwords
 ^irc-passwords\.el$
@@ -11,6 +12,8 @@
 ^rcirc-log/
 ^server/
 ^url/
+^elpa/
+^eshell/
 ^\.emacs\.desktop$
 ^\.emacs\.desktop\.lock$
 ^tramp$
