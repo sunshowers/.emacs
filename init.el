@@ -19,11 +19,14 @@
                             (width . 170)
                             (height . 40)))
 
-; Ubuntu Mono at 10.5pt
-(set-face-font 'default "Ubuntu Mono-10.5")
-;(set-face-font `default "Consolas-11")
-; Meiryo 11 for Japanese
-;(set-fontset-font t 'japanese-jisx0208 "Meiryo-11")
+(cond
+ ((string-equal system-type "windows-nt")
+  (progn
+    (set-face-font `default "Consolas-11")
+    (set-fontset-font t 'japanese-jisx0208 "Meiryo-11")))
+ ((string-equal system-type "gnu/linux")
+  (progn
+    (set-face-font 'default "Ubuntu Mono-10.5"))))
 
 ; Add to load path
 (setq load-path (cons "~/.emacs.d/elisp-files" load-path))
