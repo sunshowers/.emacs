@@ -212,3 +212,8 @@
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+
+(show-paren-mode 1) ; turn on paren match highlighting
+(setq show-paren-style 'parenthesis) ; highlight entire bracket expression
+
+(global-visual-line-mode 1)
